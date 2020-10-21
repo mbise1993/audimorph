@@ -9,10 +9,14 @@
     "start": "next start"
   },
   "dependencies": {
+    "@fluentui/react": "^7.147.1",
     "backendless": "^6.1.3",
     "next": "^9.5.3",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "react-spaces": "^0.1.26",
+    "sass": "^1.27.0",
+    "styled-components": "^5.2.0"
   },
   "devDependencies": {
     "@mbise1993/eslint-config-javascript": "^0.1.3",
