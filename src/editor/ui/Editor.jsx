@@ -1,44 +1,44 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Layout, theme } from '../../common/ui';
 import { NodeCard } from './nodes/NodeCard';
 import { NoNodes } from './NoNodes';
+import { theme } from '../../common/ui';
 
-const nodes = [];
+// const nodes = [];
 
-// const nodes = [
-//   {
-//     id: '1',
-//     title: 'Note Mapper',
-//     component: <div>Node Mapper</div>,
-//   },
-//   {
-//     id: '2',
-//     title: 'Velocity',
-//     component: <div>Velocity</div>,
-//   },
-//   {
-//     id: '3',
-//     title: 'Quanitzation',
-//     component: <div>Quanitzation</div>,
-//   },
-//   {
-//     id: '4',
-//     title: 'Note Mapper',
-//     component: <div>Node Mapper</div>,
-//   },
-//   {
-//     id: '5',
-//     title: 'Velocity',
-//     component: <div>Velocity</div>,
-//   },
-//   {
-//     id: '6',
-//     title: 'Quanitzation',
-//     component: <div>Quanitzation</div>,
-//   },
-// ];
+const nodes = [
+  {
+    id: '1',
+    title: 'Note Mapper',
+    component: <div>Node Mapper</div>,
+  },
+  {
+    id: '2',
+    title: 'Velocity',
+    component: <div>Velocity</div>,
+  },
+  {
+    id: '3',
+    title: 'Quanitzation',
+    component: <div>Quanitzation</div>,
+  },
+  {
+    id: '4',
+    title: 'Note Mapper',
+    component: <div>Node Mapper</div>,
+  },
+  {
+    id: '5',
+    title: 'Velocity',
+    component: <div>Velocity</div>,
+  },
+  {
+    id: '6',
+    title: 'Quanitzation',
+    component: <div>Quanitzation</div>,
+  },
+];
 
 const NODE_HEIGHT = 100;
 const NODE_WIDTH = 200;
@@ -48,7 +48,10 @@ const LEFT_PADDING = 64;
 const COL_SPACING = NODE_WIDTH + 100;
 const ROW_SPACING = NODE_HEIGHT + 100;
 
-const Root = styled(Layout.Fill)`
+const Container = styled.div`
+  height: 100%;
+  width: 100%;
+  position: relative;
   padding: 4px 20px;
   background-color: ${theme.palette.neutralLighter};
 `;
@@ -136,13 +139,13 @@ export const Editor = () => {
   };
 
   return (
-    <Root>
+    <Container>
       <span>Node Editor</span>
       {nodes.length > 0 ? (
         nodes.map((node, i) => renderNode(node, i))
       ) : (
         <NoNodes />
       )}
-    </Root>
+    </Container>
   );
 };
