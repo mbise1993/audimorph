@@ -23,6 +23,7 @@
     "@mbise1993/eslint-config-javascript": "^0.2.1",
     "@mbise1993/eslint-config-react": "^0.2.1",
     "@types/styled-components": "^5.1.4",
+    "babel-plugin-styled-components": "^1.11.1",
     "eslint": "^7.11.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
