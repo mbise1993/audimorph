@@ -38,6 +38,16 @@ const nodes = [
     title: 'Quanitzation',
     component: <div>Quanitzation</div>,
   },
+  {
+    id: '7',
+    title: 'Velocity',
+    component: <div>Velocity</div>,
+  },
+  {
+    id: '8',
+    title: 'Quanitzation',
+    component: <div>Quanitzation</div>,
+  },
 ];
 
 const NODE_HEIGHT = 100;
@@ -45,8 +55,8 @@ const NODE_WIDTH = 200;
 const NODES_PER_ROW = 3;
 const TOP_PADDING = 64;
 const LEFT_PADDING = 64;
-const COL_SPACING = NODE_WIDTH + 100;
-const ROW_SPACING = NODE_HEIGHT + 100;
+const COL_SPACING = 100;
+const ROW_SPACING = 100;
 
 const Container = styled.div`
   height: 100%;
@@ -77,27 +87,35 @@ const VerticalLine = styled.div`
 export const Editor = () => {
   const calcPositions = (i) => {
     const row = Math.floor(i / NODES_PER_ROW);
-    const isNewRowStart = i > 0 && i % NODES_PER_ROW === 0;
-
     let col = i % NODES_PER_ROW;
     if (row % 2 === 1) {
       col = NODES_PER_ROW - col - 1;
     }
 
-    const nodeTop = TOP_PADDING + row * ROW_SPACING;
-    const nodeLeft = LEFT_PADDING + col * COL_SPACING;
+    const isReverseRow = row % 2 === 1;
+    const isLastInRow = isReverseRow ? col === 0 : col === NODES_PER_ROW - 1;
 
-    const lineYStart = isNewRowStart
+    const nodeTop = TOP_PADDING + row * (NODE_HEIGHT + ROW_SPACING);
+    const nodeLeft = LEFT_PADDING + col * (NODE_WIDTH + COL_SPACING);
+
+    const lineYStart = isLastInRow
       ? nodeTop + NODE_HEIGHT
       : nodeTop + NODE_HEIGHT / 2;
 
-    const lineYEnd = isNewRowStart ? lineYStart + ROW_SPACING : lineYStart;
+    const lineYEnd = isLastInRow ? lineYStart + ROW_SPACING : lineYStart;
 
-    const lineXStart = isNewRowStart
-      ? nodeLeft + NODE_WIDTH / 2
-      : nodeLeft + NODE_WIDTH;
-
-    const lineXEnd = isNewRowStart ? lineXStart : nodeLeft + COL_SPACING;
+    let lineXStart = 0;
+    let lineXEnd = 0;
+    if (isLastInRow) {
+      lineXStart = nodeLeft + NODE_WIDTH / 2;
+      lineXEnd = lineXStart;
+    } else if (isReverseRow) {
+      lineXStart = nodeLeft - COL_SPACING;
+      lineXEnd = nodeLeft;
+    } else {
+      lineXStart = nodeLeft + NODE_WIDTH;
+      lineXEnd = lineXStart + COL_SPACING;
+    }
 
     return {
       nodeTop,
@@ -109,7 +127,23 @@ export const Editor = () => {
     };
   };
 
-  const renderNode = (node, i) => {
+  const renderLine = (positions) => {
+    return positions.lineXStart === positions.lineXEnd ? (
+      <VerticalLine
+        yStart={positions.lineYStart}
+        yEnd={positions.lineYEnd}
+        x={positions.lineXStart}
+      />
+    ) : (
+      <HorizontalLine
+        y={positions.lineYStart}
+        xStart={positions.lineXStart}
+        xEnd={positions.lineXEnd}
+      />
+    );
+  };
+
+  const renderNode = (i, node) => {
     const positions = calcPositions(i);
 
     return (
@@ -121,19 +155,7 @@ export const Editor = () => {
         >
           {node.component}
         </NodeCard>
-        {positions.lineXStart === positions.lineXEnd ? (
-          <VerticalLine
-            yStart={positions.lineYStart}
-            yEnd={positions.lineYEnd}
-            x={positions.lineXStart}
-          />
-        ) : (
-          <HorizontalLine
-            y={positions.lineYStart}
-            xStart={positions.lineXStart}
-            xEnd={positions.lineXEnd}
-          />
-        )}
+        {i < nodes.length - 1 && renderLine(positions)}
       </React.Fragment>
     );
   };
@@ -142,7 +164,7 @@ export const Editor = () => {
     <Container>
       <span>Node Editor</span>
       {nodes.length > 0 ? (
-        nodes.map((node, i) => renderNode(node, i))
+        nodes.map((node, i) => renderNode(i, node))
       ) : (
         <NoNodes />
       )}

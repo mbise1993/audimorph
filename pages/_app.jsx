@@ -4,9 +4,8 @@ import { initializeIcons } from '@uifabric/icons';
 
 import './app.scss';
 
-initializeIcons();
-
 function App({ Component, pageProps }) {
+  initializeIcons();
   return <Component {...pageProps} />;
 }
 
