@@ -15,7 +15,7 @@ const Top = styled.div`
   width: 100%;
   padding: 8px;
   height: ${(props) => props.size};
-  padding: ${(props) => props.padding};
+  padding: ${(props) => props.p};
 `;
 
 const Bottom = styled.div`
@@ -23,7 +23,7 @@ const Bottom = styled.div`
   bottom: 0;
   width: 100%;
   height: ${(props) => props.size};
-  padding: ${(props) => props.padding};
+  padding: ${(props) => props.p};
 `;
 
 const Left = styled.div`
@@ -31,7 +31,7 @@ const Left = styled.div`
   left: 0;
   height: 100%;
   width: ${(props) => props.size};
-  padding: ${(props) => props.padding};
+  padding: ${(props) => props.p};
 `;
 
 const Right = styled.div`
@@ -39,13 +39,13 @@ const Right = styled.div`
   right: 0;
   height: 100%;
   width: ${(props) => props.size};
-  padding: ${(props) => props.padding};
+  padding: ${(props) => props.p};
 `;
 
 const Fill = styled.div`
   height: 100%;
   width: 100%;
-  padding: ${(props) => props.padding};
+  padding: ${(props) => props.p};
 `;
 
 export const Layout = {
