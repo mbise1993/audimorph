@@ -24,7 +24,7 @@ export const Templates = () => {
     <div>
       <PanelHeader title="Templates" />
       {templates.map((template) => (
-        <TemplateListItem key={templates.id} template={template} />
+        <TemplateListItem key={template.id} template={template} />
       ))}
     </div>
   );

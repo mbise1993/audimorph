@@ -1,9 +1,11 @@
 import produce from 'immer';
 import React from 'react';
 import styled from 'styled-components';
+import { PrimaryButton, Text } from '@fluentui/react';
 import { v4 as uuid } from 'uuid';
 
-import { ADD_BUTTON_SIZE, calcElementPositions } from './nodes/nodeUtils';
+import { AddNodeButton } from './AddNodeButton';
+import { calcElementPositions } from './nodes/nodeUtils';
 import { NodeCard } from './nodes/NodeCard';
 import { NoNodes } from './NoNodes';
 import { theme } from '../../common/ui';
@@ -39,8 +41,13 @@ const NODES = [
 const Container = styled.div`
   height: 100%;
   width: 100%;
-  padding: 4px 20px;
+  padding: 12px 20px;
   background-color: ${theme.palette.neutralLighter};
+`;
+
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
 const NodesContainer = styled.div`
@@ -67,27 +74,34 @@ const VerticalLine = styled.div`
   background-color: black;
 `;
 
-const AddButton = styled.button`
-  position: absolute;
-  height: ${ADD_BUTTON_SIZE}px;
-  width: ${ADD_BUTTON_SIZE}px;
-  left: ${(props) => props.left}px;
-  top: ${(props) => props.top}px;
-  color: white;
-  background-color: ${theme.palette.themePrimary};
-  border: 0px;
-  cursor: pointer;
-`;
-
 export const Editor = () => {
   const [nodes, setNodes] = React.useState(NODES);
 
-  const handleAddClick = (index) => {
-    const newNode = {
-      id: uuid(),
-      title: 'Quanitzation',
-      component: <div>Quanitzation</div>,
-    };
+  const handleAddClick = (index, type) => {
+    let newNode;
+    switch (type) {
+      case 'note-mapper':
+        newNode = {
+          id: uuid(),
+          title: 'Note Mapper',
+          component: <div>Note Mapper</div>,
+        };
+        break;
+      case 'velocity':
+        newNode = {
+          id: uuid(),
+          title: 'Velocity',
+          component: <div>Velocity</div>,
+        };
+        break;
+      case 'quantization':
+        newNode = {
+          id: uuid(),
+          title: 'Quantization',
+          component: <div>Quantization</div>,
+        };
+        break;
+    }
 
     const newNodes = produce(nodes, (draft) => {
       if (index === 0) {
@@ -128,14 +142,14 @@ export const Editor = () => {
 
   const renderAddButton = (index, left, top) => {
     return (
-      <AddButton
+      <AddNodeButton
         left={left}
         top={top}
         title="Add a new node at this position"
-        onClick={() => handleAddClick(index)}
+        onAddNode={(type) => handleAddClick(index, type)}
       >
         +
-      </AddButton>
+      </AddNodeButton>
     );
   };
 
@@ -179,7 +193,10 @@ export const Editor = () => {
 
   return (
     <Container>
-      <span>Node Editor</span>
+      <Header>
+        <Text variant="large">Node Editor</Text>
+        <PrimaryButton text="Save as Template" />
+      </Header>
       <NodesContainer>
         {nodes.length > 0 ? (
           nodes.map((node, i) => renderNode(i, node))
