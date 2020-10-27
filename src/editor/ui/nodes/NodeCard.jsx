@@ -3,6 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { Button, PanelHeader } from '../../../common/ui';
+import { useConfirmation } from '../../../common/hooks';
 
 const Root = styled.div`
   position: absolute;
@@ -23,11 +24,24 @@ const Content = styled.div`
 `;
 
 export const NodeCard = ({ title, onDeleteClick, children, ...rest }) => {
+  const confirmDeleteDialog = useConfirmation({
+    headerText: 'Delete Node',
+    bodyText: 'Are you sure you want to delete this node?',
+    onConfirm: onDeleteClick,
+  });
+
   return (
-    <Root {...rest}>
-      <PanelHeader title={title} closable onClose={onDeleteClick} />
-      <Content>{children}</Content>
-    </Root>
+    <>
+      <Root {...rest}>
+        <PanelHeader
+          title={title}
+          closable
+          onClose={() => confirmDeleteDialog.setOpen(true)}
+        />
+        <Content>{children}</Content>
+      </Root>
+      <confirmDeleteDialog.Component />
+    </>
   );
 };
 

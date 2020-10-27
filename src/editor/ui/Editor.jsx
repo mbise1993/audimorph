@@ -20,21 +20,6 @@ const NODES = [
     title: 'Velocity',
     component: <div>Velocity</div>,
   },
-  {
-    id: uuid(),
-    title: 'Quanitzation',
-    component: <div>Quanitzation</div>,
-  },
-  {
-    id: uuid(),
-    title: 'Note Mapper',
-    component: <div>Node Mapper</div>,
-  },
-  {
-    id: uuid(),
-    title: 'Velocity',
-    component: <div>Velocity</div>,
-  },
 ];
 
 const Container = styled.div`
