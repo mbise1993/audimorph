@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
+import { ContextMenu } from 'primereact/contextmenu';
 
 import { FlexRow, Icon, Text } from '../../../common/ui';
 import { useConfirmation } from '../../../common/hooks';
@@ -31,15 +32,37 @@ export const NodeCard = ({
   children,
   ...rest
 }) => {
+  const menuRef = React.useRef(null);
+
   const confirmDeleteDialog = useConfirmation({
     headerText: 'Delete Node',
     bodyText: 'Are you sure you want to delete this node?',
     onConfirm: onDeleteClick,
   });
 
+  const appendTo = React.useMemo(() => {
+    return process.browser ? document.body : null;
+  }, []);
+
+  const menuModel = React.useMemo(() => {
+    return [
+      {
+        label: 'Delete',
+        command: () => confirmDeleteDialog.setOpen(true),
+      },
+    ];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleContextMenu = (e) => {
+    if (menuRef.current) {
+      menuRef.current.show(e);
+    }
+  };
+
   return (
     <>
-      <Root {...rest}>
+      <Root onContextMenu={handleContextMenu} {...rest}>
         <FlexRow align="center" justify="space-between">
           <Text>{title}</Text>
           <Icon
@@ -55,6 +78,9 @@ export const NodeCard = ({
           </Text>
         </Content>
       </Root>
+
+      <ContextMenu ref={menuRef} model={menuModel} appendTo={appendTo} />
+
       <confirmDeleteDialog.Component />
     </>
   );
