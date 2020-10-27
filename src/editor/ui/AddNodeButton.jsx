@@ -5,6 +5,7 @@ import { Menu } from 'primereact/menu';
 
 import { ADD_BUTTON_SIZE } from './nodes/nodeUtils';
 import { Icon } from '../../common/ui';
+import { nodeTypes } from '../models/nodeTypes';
 
 const Button = styled(Icon)`
   position: absolute;
@@ -41,20 +42,12 @@ export const AddNodeButton = ({ onAddNode, ...rest }) => {
   }, []);
 
   const menuModel = React.useMemo(() => {
-    return [
-      {
-        label: 'Note Mapper',
-        command: () => onAddNode('note-mapper'),
-      },
-      {
-        label: 'Velocity',
-        command: () => onAddNode('velocity'),
-      },
-      {
-        label: 'Quantization',
-        command: () => onAddNode('quantization'),
-      },
-    ];
+    return Object.keys(nodeTypes).map((key) => {
+      return {
+        label: nodeTypes[key].name,
+        command: () => onAddNode(nodeTypes[key].id),
+      };
+    });
   }, [onAddNode]);
 
   const handleClick = (e) => {

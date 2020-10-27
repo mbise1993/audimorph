@@ -7,18 +7,22 @@ import { AddNodeButton } from './AddNodeButton';
 import { Button, FlexRow, Text } from '../../common/ui';
 import { calcElementPositions } from './nodes/nodeUtils';
 import { NodeCard } from './nodes/NodeCard';
+import { nodeTypes } from '../models/nodeTypes';
 import { NoNodes } from './NoNodes';
+import { NoteMapperNode } from './nodes/NoteMapperNode';
+import { QuantizeNode } from './nodes/QuantizeNode';
+import { VelocityNode } from './nodes/VelocityNode';
 
 const NODES = [
   {
     id: uuid(),
-    title: 'Note Mapper',
-    component: <div>Node Mapper</div>,
+    title: nodeTypes.noteMapper.name,
+    component: <NoteMapperNode />,
   },
   {
     id: uuid(),
-    title: 'Velocity',
-    component: <div>Velocity</div>,
+    title: nodeTypes.velocity.name,
+    component: <VelocityNode />,
   },
 ];
 
@@ -58,25 +62,25 @@ export const Editor = () => {
   const handleAddClick = (index, type) => {
     let newNode;
     switch (type) {
-      case 'note-mapper':
+      case nodeTypes.noteMapper.id:
         newNode = {
           id: uuid(),
-          title: 'Note Mapper',
-          component: <div>Note Mapper</div>,
+          title: nodeTypes.noteMapper.name,
+          component: <NoteMapperNode />,
         };
         break;
-      case 'velocity':
+      case nodeTypes.velocity.id:
         newNode = {
           id: uuid(),
-          title: 'Velocity',
+          title: nodeTypes.velocity.name,
           component: <div>Velocity</div>,
         };
         break;
-      case 'quantization':
+      case nodeTypes.quantize.id:
         newNode = {
           id: uuid(),
-          title: 'Quantization',
-          component: <div>Quantization</div>,
+          title: nodeTypes.quantize.name,
+          component: <QuantizeNode />,
         };
         break;
     }
@@ -138,6 +142,7 @@ export const Editor = () => {
       <React.Fragment key={node.id}>
         <NodeCard
           title={node.title}
+          description={node.title}
           top={positions.nodeTop}
           left={positions.nodeLeft}
           onDeleteClick={() => handleDeleteClick(index)}

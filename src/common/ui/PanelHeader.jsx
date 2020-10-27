@@ -6,7 +6,7 @@ import { Icon } from './Icon';
 import { Text } from './Text';
 
 const Container = styled.div`
-  height: 2em;
+  height: 2.25em;
   padding: 0.25em 0.75em;
   display: flex;
   align-items: center;
