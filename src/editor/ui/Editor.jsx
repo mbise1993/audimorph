@@ -39,9 +39,14 @@ const NODES = [
 const Container = styled.div`
   height: 100%;
   width: 100%;
-  position: relative;
   padding: 4px 20px;
   background-color: ${theme.palette.neutralLighter};
+`;
+
+const NodesContainer = styled.div`
+  height: 100%;
+  width: 100%;
+  position: relative;
 `;
 
 const HorizontalLine = styled.div`
@@ -175,11 +180,13 @@ export const Editor = () => {
   return (
     <Container>
       <span>Node Editor</span>
-      {nodes.length > 0 ? (
-        nodes.map((node, i) => renderNode(i, node))
-      ) : (
-        <NoNodes onAddNodeClick={handleAddClick(0)} />
-      )}
+      <NodesContainer>
+        {nodes.length > 0 ? (
+          nodes.map((node, i) => renderNode(i, node))
+        ) : (
+          <NoNodes onAddNodeClick={handleAddClick(0)} />
+        )}
+      </NodesContainer>
     </Container>
   );
 };
