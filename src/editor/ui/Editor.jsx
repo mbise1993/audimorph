@@ -1,14 +1,13 @@
 import produce from 'immer';
 import React from 'react';
 import styled from 'styled-components';
-import { PrimaryButton, Text } from '@fluentui/react';
 import { v4 as uuid } from 'uuid';
 
 import { AddNodeButton } from './AddNodeButton';
+import { Button, FlexRow, Text } from '../../common/ui';
 import { calcElementPositions } from './nodes/nodeUtils';
 import { NodeCard } from './nodes/NodeCard';
 import { NoNodes } from './NoNodes';
-import { theme } from '../../common/ui';
 
 const NODES = [
   {
@@ -42,18 +41,12 @@ const Container = styled.div`
   height: 100%;
   width: 100%;
   padding: 12px 20px;
-  background-color: ${theme.palette.neutralLighter};
-`;
-
-const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
 `;
 
 const NodesContainer = styled.div`
   height: 100%;
   width: 100%;
-  position: relative;
+  position: absolute;
 `;
 
 const HorizontalLine = styled.div`
@@ -62,7 +55,7 @@ const HorizontalLine = styled.div`
   left: ${(props) => props.xStart}px;
   width: ${(props) => props.xEnd - props.xStart}px;
   height: 1px;
-  background-color: black;
+  background-color: var(--text-color-secondary);
 `;
 
 const VerticalLine = styled.div`
@@ -71,7 +64,7 @@ const VerticalLine = styled.div`
   left: ${(props) => props.x}px;
   height: ${(props) => props.yEnd - props.yStart}px;
   width: 1px;
-  background-color: black;
+  background-color: var(--text-color-secondary);
 `;
 
 export const Editor = () => {
@@ -147,9 +140,7 @@ export const Editor = () => {
         top={top}
         title="Add a new node at this position"
         onAddNode={(type) => handleAddClick(index, type)}
-      >
-        +
-      </AddNodeButton>
+      />
     );
   };
 
@@ -193,10 +184,12 @@ export const Editor = () => {
 
   return (
     <Container>
-      <Header>
-        <Text variant="large">Node Editor</Text>
-        <PrimaryButton text="Save as Template" />
-      </Header>
+      <FlexRow justify="space-between">
+        <Text size="lg">Node Editor</Text>
+        <Button variant="rounded" outlined>
+          Save as Template
+        </Button>
+      </FlexRow>
       <NodesContainer>
         {nodes.length > 0 ? (
           nodes.map((node, i) => renderNode(i, node))

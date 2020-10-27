@@ -1,19 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Text } from '@fluentui/react';
+
+import { Text } from '../../common/ui';
 
 const Container = styled.header`
   height: 100%;
   display: flex;
   align-items: center;
-  padding: 0px 8px;
+  padding: 0.25em 0.75em;
   line-height: 1em;
 `;
 
 export const AppHeader = () => {
   return (
     <Container>
-      <Text variant="xLarge">AudiMorph</Text>
+      <Text size="lg">AudiMorph</Text>
     </Container>
   );
 };
