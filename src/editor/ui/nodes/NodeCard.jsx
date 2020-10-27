@@ -32,12 +32,12 @@ const CloseIcon = styled(Icon)`
   cursor: pointer;
 `;
 
-export const NodeCard = ({ title, children, ...rest }) => {
+export const NodeCard = ({ title, onDeleteClick, children, ...rest }) => {
   return (
     <Root {...rest}>
       <TitleBar>
         <span>{title}</span>
-        <CloseIcon iconName="ChromeClose" />
+        <CloseIcon iconName="ChromeClose" onClick={onDeleteClick} />
       </TitleBar>
       {children}
     </Root>
@@ -46,5 +46,6 @@ export const NodeCard = ({ title, children, ...rest }) => {
 
 NodeCard.propTypes = {
   title: PropTypes.string,
+  onDeleteClick: PropTypes.func,
   children: PropTypes.element,
 };

@@ -1,62 +1,40 @@
+import produce from 'immer';
 import React from 'react';
 import styled from 'styled-components';
+import { v4 as uuid } from 'uuid';
 
+import { ADD_BUTTON_SIZE, calcElementPositions } from './nodes/nodeUtils';
 import { NodeCard } from './nodes/NodeCard';
 import { NoNodes } from './NoNodes';
 import { theme } from '../../common/ui';
 
-// const nodes = [];
-
-const nodes = [
+const NODES = [
   {
-    id: '1',
+    id: uuid(),
     title: 'Note Mapper',
     component: <div>Node Mapper</div>,
   },
   {
-    id: '2',
+    id: uuid(),
     title: 'Velocity',
     component: <div>Velocity</div>,
   },
   {
-    id: '3',
+    id: uuid(),
     title: 'Quanitzation',
     component: <div>Quanitzation</div>,
   },
   {
-    id: '4',
+    id: uuid(),
     title: 'Note Mapper',
     component: <div>Node Mapper</div>,
   },
   {
-    id: '5',
+    id: uuid(),
     title: 'Velocity',
     component: <div>Velocity</div>,
-  },
-  {
-    id: '6',
-    title: 'Quanitzation',
-    component: <div>Quanitzation</div>,
-  },
-  {
-    id: '7',
-    title: 'Velocity',
-    component: <div>Velocity</div>,
-  },
-  {
-    id: '8',
-    title: 'Quanitzation',
-    component: <div>Quanitzation</div>,
   },
 ];
-
-const NODE_HEIGHT = 100;
-const NODE_WIDTH = 200;
-const NODES_PER_ROW = 3;
-const TOP_PADDING = 64;
-const LEFT_PADDING = 64;
-const COL_SPACING = 100;
-const ROW_SPACING = 100;
 
 const Container = styled.div`
   height: 100%;
@@ -84,47 +62,47 @@ const VerticalLine = styled.div`
   background-color: black;
 `;
 
+const AddButton = styled.button`
+  position: absolute;
+  height: ${ADD_BUTTON_SIZE}px;
+  width: ${ADD_BUTTON_SIZE}px;
+  left: ${(props) => props.left}px;
+  top: ${(props) => props.top}px;
+  color: white;
+  background-color: ${theme.palette.themePrimary};
+  border: 0px;
+  cursor: pointer;
+`;
+
 export const Editor = () => {
-  const calcPositions = (i) => {
-    const row = Math.floor(i / NODES_PER_ROW);
-    let col = i % NODES_PER_ROW;
-    if (row % 2 === 1) {
-      col = NODES_PER_ROW - col - 1;
-    }
+  const [nodes, setNodes] = React.useState(NODES);
 
-    const isReverseRow = row % 2 === 1;
-    const isLastInRow = isReverseRow ? col === 0 : col === NODES_PER_ROW - 1;
-
-    const nodeTop = TOP_PADDING + row * (NODE_HEIGHT + ROW_SPACING);
-    const nodeLeft = LEFT_PADDING + col * (NODE_WIDTH + COL_SPACING);
-
-    const lineYStart = isLastInRow
-      ? nodeTop + NODE_HEIGHT
-      : nodeTop + NODE_HEIGHT / 2;
-
-    const lineYEnd = isLastInRow ? lineYStart + ROW_SPACING : lineYStart;
-
-    let lineXStart = 0;
-    let lineXEnd = 0;
-    if (isLastInRow) {
-      lineXStart = nodeLeft + NODE_WIDTH / 2;
-      lineXEnd = lineXStart;
-    } else if (isReverseRow) {
-      lineXStart = nodeLeft - COL_SPACING;
-      lineXEnd = nodeLeft;
-    } else {
-      lineXStart = nodeLeft + NODE_WIDTH;
-      lineXEnd = lineXStart + COL_SPACING;
-    }
-
-    return {
-      nodeTop,
-      nodeLeft,
-      lineYStart,
-      lineYEnd,
-      lineXStart,
-      lineXEnd,
+  const handleAddClick = (index) => {
+    const newNode = {
+      id: uuid(),
+      title: 'Quanitzation',
+      component: <div>Quanitzation</div>,
     };
+
+    const newNodes = produce(nodes, (draft) => {
+      if (index === 0) {
+        draft.unshift(newNode);
+      } else if (index === nodes.length) {
+        draft.push(newNode);
+      } else {
+        draft.splice(index, 0, newNode);
+      }
+    });
+
+    setNodes(newNodes);
+  };
+
+  const handleDeleteClick = (index) => {
+    const newNodes = produce(nodes, (draft) => {
+      draft.splice(index, 1);
+    });
+
+    setNodes(newNodes);
   };
 
   const renderLine = (positions) => {
@@ -143,8 +121,23 @@ export const Editor = () => {
     );
   };
 
-  const renderNode = (i, node) => {
-    const positions = calcPositions(i);
+  const renderAddButton = (index, left, top) => {
+    return (
+      <AddButton
+        left={left}
+        top={top}
+        title="Add a new node at this position"
+        onClick={() => handleAddClick(index)}
+      >
+        +
+      </AddButton>
+    );
+  };
+
+  const renderNode = (index, node) => {
+    const positions = calcElementPositions(index);
+    const isFirstNode = index === 0;
+    const isLastNode = index === nodes.length - 1;
 
     return (
       <React.Fragment key={node.id}>
@@ -152,10 +145,29 @@ export const Editor = () => {
           title={node.title}
           top={positions.nodeTop}
           left={positions.nodeLeft}
+          onDeleteClick={() => handleDeleteClick(index)}
         >
           {node.component}
         </NodeCard>
-        {i < nodes.length - 1 && renderLine(positions)}
+        {!isLastNode && renderLine(positions)}
+        {!isLastNode &&
+          renderAddButton(
+            index + 1,
+            positions.addButtonLeft,
+            positions.addButtonTop,
+          )}
+        {isFirstNode &&
+          renderAddButton(
+            0,
+            positions.firstAddButtonLeft,
+            positions.firstAddButtonTop,
+          )}
+        {isLastNode &&
+          renderAddButton(
+            index + 1,
+            positions.lastAddButtonLeft,
+            positions.lastAddButtonTop,
+          )}
       </React.Fragment>
     );
   };
@@ -166,7 +178,7 @@ export const Editor = () => {
       {nodes.length > 0 ? (
         nodes.map((node, i) => renderNode(i, node))
       ) : (
-        <NoNodes />
+        <NoNodes onAddNodeClick={handleAddClick(0)} />
       )}
     </Container>
   );
