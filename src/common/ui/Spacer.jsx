@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 
 export const HorizontalSpacer = styled.div`
-  width: ${(props) => props.size};
+  display: inline;
+  margin-left: ${(props) => props.size};
 `;
 
 export const VerticalSpacer = styled.div`
-  height: ${(props) => props.size};
+  margin-top: ${(props) => props.size};
 `;

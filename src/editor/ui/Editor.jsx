@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { v4 as uuid } from 'uuid';
 
 import { AddNodeButton } from './AddNodeButton';
-import { Button, FlexRow, Text } from '../../common/ui';
+import { Button, FlexRow, HorizontalSpacer, Text } from '../../common/ui';
 import { calcElementPositions } from './nodes/nodeUtils';
 import { NodeCard } from './nodes/NodeCard';
 import { nodeTypes } from '../models/nodeTypes';
@@ -176,9 +176,15 @@ export const Editor = () => {
     <Container>
       <FlexRow justify="space-between">
         <Text size="lg">Node Editor</Text>
-        <Button variant="rounded" outlined>
-          Save as Template
-        </Button>
+        <div>
+          <Button variant="rounded" outlined>
+            Run
+          </Button>
+          <HorizontalSpacer size="0.75em" />
+          <Button variant="rounded" outlined>
+            Save as Template
+          </Button>
+        </div>
       </FlexRow>
       <NodesContainer>
         {nodes.length > 0 ? (
