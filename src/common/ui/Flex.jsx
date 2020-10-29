@@ -6,7 +6,7 @@ function paddingsMixin(props) {
     return `padding: ${props.p}`;
   }
 
-  return padding(props.pt, props.pr, props.pb, props.pl);
+  return padding(props.pt || 0, props.pr || 0, props.pb || 0, props.pl || 0);
 }
 
 export const FlexRow = styled.div`

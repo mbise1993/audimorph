@@ -9,6 +9,7 @@ import { EditorState } from '../state/editorState';
 import { NodeCard } from './nodes/NodeCard';
 import { nodeFactory } from '../state/nodeFactory';
 import { NoNodes } from './NoNodes';
+import { RunDialog } from './RunDialog';
 
 const Container = styled.div`
   height: 100%;
@@ -42,6 +43,7 @@ const VerticalLine = styled.div`
 
 export const Editor = () => {
   const editorState = EditorState.useContainer();
+  const [isRunDialogOpen, setRunDialogOpen] = React.useState(false);
 
   const handleAddClick = (index, type) => {
     const newNode = nodeFactory.createNodeFromType(type);
@@ -116,35 +118,54 @@ export const Editor = () => {
   };
 
   return (
-    <Container>
-      <FlexRow justify="space-between">
-        <div>
-          <Text size="lg">Node Editor</Text>
-          &nbsp;&nbsp;
-          {editorState.currentTemplate && (
-            <Text size="md" color="secondary">
-              Template: {editorState.currentTemplate.name}
-            </Text>
-          )}
-        </div>
-        <div>
-          <Button variant="rounded" outlined>
-            Run
-          </Button>
-          <HorizontalSpacer size="0.75em" />
-          <Button variant="rounded" outlined>
-            Save as Template
-          </Button>
-        </div>
-      </FlexRow>
+    <>
+      <Container>
+        <FlexRow justify="space-between">
+          <div>
+            <Text size="lg">Node Editor</Text>
+            &nbsp;&nbsp;
+            {editorState.currentTemplate && (
+              <Text size="md" color="secondary">
+                Template: {editorState.currentTemplate.name}
+              </Text>
+            )}
+          </div>
+          <div>
+            <Button
+              outlined
+              variant="rounded"
+              disabled={!editorState.currentTemplate}
+              onClick={() => setRunDialogOpen(true)}
+            >
+              Run
+            </Button>
+            <HorizontalSpacer size="0.75em" />
+            <Button
+              outlined
+              variant="rounded"
+              disabled={!editorState.currentTemplate}
+            >
+              Save as Template
+            </Button>
+          </div>
+        </FlexRow>
 
-      {editorState.nodes.length > 0 ? (
-        <NodesContainer>
-          {editorState.nodes.map((node, i) => renderNode(i, node))}
-        </NodesContainer>
-      ) : (
-        <NoNodes />
+        {editorState.nodes.length > 0 ? (
+          <NodesContainer>
+            {editorState.nodes.map((node, i) => renderNode(i, node))}
+          </NodesContainer>
+        ) : (
+          <NoNodes />
+        )}
+      </Container>
+
+      {editorState.currentTemplate && isRunDialogOpen && (
+        <RunDialog
+          open
+          template={editorState.currentTemplate}
+          onClose={() => setRunDialogOpen(false)}
+        />
       )}
-    </Container>
+    </>
   );
 };

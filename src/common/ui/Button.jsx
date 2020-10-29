@@ -18,7 +18,6 @@ export const Button = ({
   variant = 'default',
   outlined = false,
   size = 'default',
-  disabled,
   loading,
   icon,
   className,

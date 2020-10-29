@@ -3,8 +3,14 @@ import React from 'react';
 
 import './_app.css';
 
+import { AuthState } from '../src/auth/state/authState';
+
 function App({ Component, pageProps }) {
-  return <Component {...pageProps} />;
+  return (
+    <AuthState.Provider>
+      <Component {...pageProps} />
+    </AuthState.Provider>
+  );
 }
 
 App.propTypes = {
