@@ -1,0 +1,5 @@
+type Template @model @auth(rules: [{ allow: owner }, { allow: public, operations: [read] }]) {
+  id: ID!
+  name: String!
+  description: String!
+}

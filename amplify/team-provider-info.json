@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-audimorph-dev-10951-authRole",
+      "UnauthRoleArn": "arn:aws:iam::501731624291:role/amplify-audimorph-dev-10951-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::501731624291:role/amplify-audimorph-dev-10951-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-audimorph-dev-10951-deployment",
+      "UnauthRoleName": "amplify-audimorph-dev-10951-unauthRole",
+      "StackName": "amplify-audimorph-dev-10951",
+      "StackId": "arn:aws:cloudformation:us-east-1:501731624291:stack/amplify-audimorph-dev-10951/5cf48f20-19ad-11eb-bb25-1246411399d1",
+      "AmplifyAppId": "dbkwxeldwqz6w"
+    },
+    "categories": {
+      "auth": {
+        "audimorphb79c0527": {}
+      }
+    }
+  }
+}
