@@ -7,10 +7,10 @@ export async function searchTemplates(searchTerm) {
     query: listTemplates,
     variables: {
       filter: {
-        name: { contains: searchTerm },
-        or: {
-          name: { contains: searchTerm },
-        },
+        or: [
+          { name: { contains: searchTerm } },
+          { description: { contains: searchTerm } },
+        ],
       },
     },
   });
