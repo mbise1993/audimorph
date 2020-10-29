@@ -7,9 +7,10 @@ export const onCreateTemplate = /* GraphQL */ `
       id
       name
       description
+      private
+      owner
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -19,9 +20,10 @@ export const onUpdateTemplate = /* GraphQL */ `
       id
       name
       description
+      private
+      owner
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -31,9 +33,10 @@ export const onDeleteTemplate = /* GraphQL */ `
       id
       name
       description
+      private
+      owner
       createdAt
       updatedAt
-      owner
     }
   }
 `;

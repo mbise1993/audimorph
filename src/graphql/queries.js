@@ -7,9 +7,10 @@ export const getTemplate = /* GraphQL */ `
       id
       name
       description
+      private
+      owner
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -24,9 +25,10 @@ export const listTemplates = /* GraphQL */ `
         id
         name
         description
+        private
+        owner
         createdAt
         updatedAt
-        owner
       }
       nextToken
     }
