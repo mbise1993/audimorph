@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
 
-import { nodeTypes } from './nodeTypes';
+import { nodeTypes } from '../state/nodeTypes';
 
 class NodeFactory {
   createNodeFromType(typeId) {

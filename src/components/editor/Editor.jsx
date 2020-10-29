@@ -1,14 +1,13 @@
-import produce from 'immer';
 import React from 'react';
 import styled from 'styled-components';
 
 import { AddNodeButton } from './AddNodeButton';
-import { AuthState } from '../../auth/state/authState';
-import { Button, FlexRow, HorizontalSpacer, Text } from '../../common/ui';
-import { calcElementPositions } from './nodes/nodeUtils';
-import { EditorState } from '../state/editorState';
-import { NodeCard } from './nodes/NodeCard';
-import { nodeFactory } from '../state/nodeFactory';
+import { AuthState } from '../../state/authState';
+import { Button, FlexRow, HorizontalSpacer, Text } from '../common';
+import { calcElementPositions } from './nodeUtils';
+import { EditorState } from '../../state/editorState';
+import { NodeCard } from './NodeCard';
+import { nodeFactory } from '../../services/nodeFactory';
 import { NoNodes } from './NoNodes';
 import { RunDialog } from './RunDialog';
 import { SignUpToSaveDialog } from './SignUpToSaveDialog';

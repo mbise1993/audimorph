@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { Button, FlexColumn, Text, VerticalSpacer } from '../../common/ui';
-import { EditorState } from '../state/editorState';
-import { templateFactory } from '../../templates/state/templateFactory';
+import { Button, FlexColumn, Text, VerticalSpacer } from '../common';
+import { EditorState } from '../../state/editorState';
+import { templateFactory } from '../../services/templateFactory';
 
 export const NoNodes = () => {
   const editorState = EditorState.useContainer();

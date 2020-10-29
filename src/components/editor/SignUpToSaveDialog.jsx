@@ -3,13 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Dialog } from 'primereact/dialog';
 
-import {
-  Button,
-  FlexColumn,
-  FlexRow,
-  Text,
-  VerticalSpacer,
-} from '../../common/ui';
+import { Button, FlexColumn, FlexRow, Text, VerticalSpacer } from '../common';
 
 const StyledDialog = styled(Dialog)`
   width: 600px;

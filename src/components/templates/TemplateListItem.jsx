@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { EditorState } from '../../editor/state/editorState';
-import { ListItem } from '../../common/ui';
-import { useConfirmation } from '../../common/hooks';
+import { EditorState } from '../../state/editorState';
+import { ListItem } from '../common';
+import { useConfirmation } from '../../hooks/useConfirmation';
 
 export const TemplateListItem = ({ template }) => {
   const editorState = EditorState.useContainer();

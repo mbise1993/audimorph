@@ -1,8 +1,9 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { v4 as uuid } from 'uuid';
 
-import { nodeTypes } from '../../editor/state/nodeTypes';
-import { PanelHeader } from '../../common/ui';
+import { nodeTypes } from '../../state/nodeTypes';
+import { PanelHeader } from '../common';
 import { TemplateListItem } from './TemplateListItem';
 
 const TEMPLATES = [
@@ -40,9 +41,7 @@ const TEMPLATES = [
   },
 ];
 
-export const Templates = () => {
-  const [templates, setTemplates] = React.useState(TEMPLATES);
-
+export function Templates({ templates }) {
   return (
     <div>
       <PanelHeader title="Templates" />
@@ -51,4 +50,8 @@ export const Templates = () => {
       ))}
     </div>
   );
+}
+
+Templates.propTypes = {
+  templates: PropTypes.arrayOf(PropTypes.object).isRequired,
 };

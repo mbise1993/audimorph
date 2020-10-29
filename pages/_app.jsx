@@ -1,12 +1,19 @@
 import Head from 'next/head';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Amplify } from 'aws-amplify';
 
 import './_app.css';
 
-import { AuthState } from '../src/auth/state/authState';
+import awsExports from '../src/aws-exports';
+import { AuthState } from '../src/state/authState';
 
-function App({ Component, pageProps }) {
+Amplify.configure({
+  ...awsExports,
+  ssr: true,
+});
+
+export default function App({ Component, pageProps }) {
   return (
     <>
       <Head>
@@ -48,5 +55,3 @@ App.propTypes = {
   Component: PropTypes.elementType,
   pageProps: PropTypes.object,
 };
-
-export default App;

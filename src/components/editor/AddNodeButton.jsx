@@ -3,9 +3,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { Menu } from 'primereact/menu';
 
-import { ADD_BUTTON_SIZE } from './nodes/nodeUtils';
-import { Icon } from '../../common/ui';
-import { nodeTypes } from '../state/nodeTypes';
+import { ADD_BUTTON_SIZE } from './nodeUtils';
+import { Icon } from '../common';
+import { nodeTypes } from '../../state/nodeTypes';
 
 const Button = styled(Icon)`
   position: absolute;

@@ -3,8 +3,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { ContextMenu } from 'primereact/contextmenu';
 
-import { FlexRow, Icon, Text } from '../../../common/ui';
-import { useConfirmation } from '../../../common/hooks';
+import { FlexRow, Icon, Text } from '../common';
+import { useConfirmation } from '../../hooks/useConfirmation';
 
 const Root = styled.div`
   position: absolute;

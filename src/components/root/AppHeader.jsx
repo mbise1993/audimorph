@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Text } from '../../common/ui';
+import { Text } from '../common';
 
 const Container = styled.header`
   height: 100%;

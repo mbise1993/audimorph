@@ -1,6 +1,7 @@
-import { nodeFactory } from '../../editor/state/nodeFactory';
-import { nodeTypes } from '../../editor/state/nodeTypes';
 import { v4 as uuid } from 'uuid';
+
+import { nodeFactory } from './nodeFactory';
+import { nodeTypes } from '../state/nodeTypes';
 
 class TemplateFactory {
   createDefaultTemplate() {
