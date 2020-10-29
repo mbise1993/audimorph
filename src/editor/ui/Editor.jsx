@@ -3,6 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { AddNodeButton } from './AddNodeButton';
+import { AuthState } from '../../auth/state/authState';
 import { Button, FlexRow, HorizontalSpacer, Text } from '../../common/ui';
 import { calcElementPositions } from './nodes/nodeUtils';
 import { EditorState } from '../state/editorState';
@@ -10,6 +11,7 @@ import { NodeCard } from './nodes/NodeCard';
 import { nodeFactory } from '../state/nodeFactory';
 import { NoNodes } from './NoNodes';
 import { RunDialog } from './RunDialog';
+import { SignUpToSaveDialog } from './SignUpToSaveDialog';
 
 const Container = styled.div`
   height: 100%;
@@ -42,8 +44,18 @@ const VerticalLine = styled.div`
 `;
 
 export const Editor = () => {
+  const authState = AuthState.useContainer();
   const editorState = EditorState.useContainer();
   const [isRunDialogOpen, setRunDialogOpen] = React.useState(false);
+  const [isSaveDialogOpen, setSaveDialogOpen] = React.useState(false);
+
+  const handleSaveClick = () => {
+    if (authState.currentUser) {
+      // Save
+    } else {
+      setSaveDialogOpen(true);
+    }
+  };
 
   const handleAddClick = (index, type) => {
     const newNode = nodeFactory.createNodeFromType(type);
@@ -132,7 +144,6 @@ export const Editor = () => {
           </div>
           <div>
             <Button
-              outlined
               variant="rounded"
               disabled={!editorState.currentTemplate}
               onClick={() => setRunDialogOpen(true)}
@@ -144,8 +155,9 @@ export const Editor = () => {
               outlined
               variant="rounded"
               disabled={!editorState.currentTemplate}
+              onClick={handleSaveClick}
             >
-              Save as Template
+              Save
             </Button>
           </div>
         </FlexRow>
@@ -165,6 +177,10 @@ export const Editor = () => {
           template={editorState.currentTemplate}
           onClose={() => setRunDialogOpen(false)}
         />
+      )}
+
+      {isSaveDialogOpen && (
+        <SignUpToSaveDialog open onClose={() => setSaveDialogOpen(false)} />
       )}
     </>
   );
