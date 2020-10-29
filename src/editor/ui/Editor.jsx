@@ -1,31 +1,14 @@
 import produce from 'immer';
 import React from 'react';
 import styled from 'styled-components';
-import { v4 as uuid } from 'uuid';
 
 import { AddNodeButton } from './AddNodeButton';
-import { AppState, appState } from '../../root/state/appState';
 import { Button, FlexRow, HorizontalSpacer, Text } from '../../common/ui';
 import { calcElementPositions } from './nodes/nodeUtils';
+import { EditorState } from '../state/editorState';
 import { NodeCard } from './nodes/NodeCard';
-import { nodeTypes } from '../models/nodeTypes';
+import { nodeFactory } from '../state/nodeFactory';
 import { NoNodes } from './NoNodes';
-import { NoteMapperNode } from './nodes/NoteMapperNode';
-import { QuantizeNode } from './nodes/QuantizeNode';
-import { VelocityNode } from './nodes/VelocityNode';
-
-const NODES = [
-  {
-    id: uuid(),
-    title: nodeTypes.noteMapper.name,
-    component: <NoteMapperNode />,
-  },
-  {
-    id: uuid(),
-    title: nodeTypes.velocity.name,
-    component: <VelocityNode />,
-  },
-];
 
 const Container = styled.div`
   height: 100%;
@@ -58,54 +41,15 @@ const VerticalLine = styled.div`
 `;
 
 export const Editor = () => {
-  const appState = AppState.useContainer();
-  const [nodes, setNodes] = React.useState(NODES);
+  const editorState = EditorState.useContainer();
 
   const handleAddClick = (index, type) => {
-    let newNode;
-    switch (type) {
-      case nodeTypes.noteMapper.id:
-        newNode = {
-          id: uuid(),
-          title: nodeTypes.noteMapper.name,
-          component: <NoteMapperNode />,
-        };
-        break;
-      case nodeTypes.velocity.id:
-        newNode = {
-          id: uuid(),
-          title: nodeTypes.velocity.name,
-          component: <div>Velocity</div>,
-        };
-        break;
-      case nodeTypes.quantize.id:
-        newNode = {
-          id: uuid(),
-          title: nodeTypes.quantize.name,
-          component: <QuantizeNode />,
-        };
-        break;
-    }
-
-    const newNodes = produce(nodes, (draft) => {
-      if (index === 0) {
-        draft.unshift(newNode);
-      } else if (index === nodes.length) {
-        draft.push(newNode);
-      } else {
-        draft.splice(index, 0, newNode);
-      }
-    });
-
-    setNodes(newNodes);
+    const newNode = nodeFactory.createNodeFromType(type);
+    editorState.addNode(newNode, index);
   };
 
   const handleDeleteClick = (index) => {
-    const newNodes = produce(nodes, (draft) => {
-      draft.splice(index, 1);
-    });
-
-    setNodes(newNodes);
+    editorState.deleteNode(index);
   };
 
   const renderLine = (positions) => {
@@ -138,19 +82,16 @@ export const Editor = () => {
   const renderNode = (index, node) => {
     const positions = calcElementPositions(index);
     const isFirstNode = index === 0;
-    const isLastNode = index === nodes.length - 1;
+    const isLastNode = index === editorState.nodes.length - 1;
 
     return (
       <React.Fragment key={node.id}>
         <NodeCard
-          title={node.title}
-          description={node.title}
+          node={node}
           top={positions.nodeTop}
           left={positions.nodeLeft}
           onDeleteClick={() => handleDeleteClick(index)}
-        >
-          {node.component}
-        </NodeCard>
+        />
         {!isLastNode && renderLine(positions)}
         {!isLastNode &&
           renderAddButton(
@@ -180,9 +121,9 @@ export const Editor = () => {
         <div>
           <Text size="lg">Node Editor</Text>
           &nbsp;&nbsp;
-          {appState.currentTemplate && (
+          {editorState.currentTemplate && (
             <Text size="md" color="secondary">
-              Template: {appState.currentTemplate.name}
+              Template: {editorState.currentTemplate.name}
             </Text>
           )}
         </div>
@@ -196,13 +137,14 @@ export const Editor = () => {
           </Button>
         </div>
       </FlexRow>
-      <NodesContainer>
-        {nodes.length > 0 ? (
-          nodes.map((node, i) => renderNode(i, node))
-        ) : (
-          <NoNodes onAddNodeClick={handleAddClick(0)} />
-        )}
-      </NodesContainer>
+
+      {editorState.nodes.length > 0 ? (
+        <NodesContainer>
+          {editorState.nodes.map((node, i) => renderNode(i, node))}
+        </NodesContainer>
+      ) : (
+        <NoNodes />
+      )}
     </Container>
   );
 };

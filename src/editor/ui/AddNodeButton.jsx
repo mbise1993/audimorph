@@ -5,7 +5,7 @@ import { Menu } from 'primereact/menu';
 
 import { ADD_BUTTON_SIZE } from './nodes/nodeUtils';
 import { Icon } from '../../common/ui';
-import { nodeTypes } from '../models/nodeTypes';
+import { nodeTypes } from '../state/nodeTypes';
 
 const Button = styled(Icon)`
   position: absolute;

@@ -2,22 +2,25 @@ import React from 'react';
 
 import { AppHeader } from '../src/root/ui/AppHeader';
 import { Editor } from '../src/editor/ui/Editor';
+import { EditorState } from '../src/editor/state/editorState';
 import { Templates } from '../src/templates/ui/Templates';
 
-function App() {
+function Index() {
   return (
-    <div className="grid-container">
-      <div className="area-header">
-        <AppHeader />
+    <EditorState.Provider>
+      <div className="grid-container">
+        <div className="area-header">
+          <AppHeader />
+        </div>
+        <div className="area-templates">
+          <Templates />
+        </div>
+        <div className="area-editor">
+          <Editor />
+        </div>
       </div>
-      <div className="area-templates">
-        <Templates />
-      </div>
-      <div className="area-editor">
-        <Editor />
-      </div>
-    </div>
+    </EditorState.Provider>
   );
 }
 
-export default App;
+export default Index;

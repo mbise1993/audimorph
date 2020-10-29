@@ -25,13 +25,7 @@ const Content = styled.div`
   margin-top: 0.65em;
 `;
 
-export const NodeCard = ({
-  title,
-  description,
-  onDeleteClick,
-  children,
-  ...rest
-}) => {
+export const NodeCard = ({ node, onDeleteClick, ...rest }) => {
   const menuRef = React.useRef(null);
 
   const confirmDeleteDialog = useConfirmation({
@@ -64,7 +58,7 @@ export const NodeCard = ({
     <>
       <Root onContextMenu={handleContextMenu} {...rest}>
         <FlexRow align="center" justify="space-between">
-          <Text>{title}</Text>
+          <Text>{node.name}</Text>
           <Icon
             clickable
             size="0.75em"
@@ -74,7 +68,7 @@ export const NodeCard = ({
         </FlexRow>
         <Content>
           <Text size="sm" color="secondary">
-            {description}
+            {node.description}
           </Text>
         </Content>
       </Root>
@@ -87,8 +81,6 @@ export const NodeCard = ({
 };
 
 NodeCard.propTypes = {
-  title: PropTypes.string,
-  description: PropTypes.string,
-  onDeleteClick: PropTypes.func,
-  children: PropTypes.element,
+  node: PropTypes.object.isRequired,
+  onDeleteClick: PropTypes.func.isRequired,
 };
