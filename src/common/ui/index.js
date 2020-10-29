@@ -1,5 +1,4 @@
 export * from './Button';
-export * from './CommonHead';
 export * from './Flex';
 export * from './Icon';
 export * from './List';
