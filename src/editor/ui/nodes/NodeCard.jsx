@@ -1,51 +1,86 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
-import { Icon } from '@fluentui/react';
+import { ContextMenu } from 'primereact/contextmenu';
 
-import { theme } from '../../../common/ui';
+import { FlexRow, Icon, Text } from '../../../common/ui';
+import { useConfirmation } from '../../../common/hooks';
 
 const Root = styled.div`
   position: absolute;
   top: ${(props) => props.top}px;
   left: ${(props) => props.left}px;
-  box-sizing: border-box;
   height: 100px;
   width: 200px;
-  background-color: white;
-  border: 1px solid black;
+  padding: 0.5em;
+  background-color: var(--surface-a);
+  border: 1px solid var(--text-color-secondary);
   border-radius: 6px;
   overflow: hidden;
 `;
 
-const TitleBar = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 4px 8px;
-  background-color: ${theme.palette.neutralLighter};
-  border-bottom: 1px solid black;
+const Content = styled.div`
+  height: 100%;
+  width: 100%;
+  margin-top: 0.65em;
 `;
 
-const CloseIcon = styled(Icon)`
-  font-size: 12px;
-  cursor: pointer;
-`;
+export const NodeCard = ({ node, onDeleteClick, ...rest }) => {
+  const menuRef = React.useRef(null);
 
-export const NodeCard = ({ title, onDeleteClick, children, ...rest }) => {
+  const confirmDeleteDialog = useConfirmation({
+    headerText: 'Delete Node',
+    bodyText: 'Are you sure you want to delete this node?',
+    onConfirm: onDeleteClick,
+  });
+
+  const appendTo = React.useMemo(() => {
+    return process.browser ? document.body : null;
+  }, []);
+
+  const menuModel = React.useMemo(() => {
+    return [
+      {
+        label: 'Delete',
+        command: () => confirmDeleteDialog.setOpen(true),
+      },
+    ];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleContextMenu = (e) => {
+    if (menuRef.current) {
+      menuRef.current.show(e);
+    }
+  };
+
   return (
-    <Root {...rest}>
-      <TitleBar>
-        <span>{title}</span>
-        <CloseIcon iconName="ChromeClose" onClick={onDeleteClick} />
-      </TitleBar>
-      {children}
-    </Root>
+    <>
+      <Root onContextMenu={handleContextMenu} {...rest}>
+        <FlexRow align="center" justify="space-between">
+          <Text>{node.name}</Text>
+          <Icon
+            clickable
+            size="0.75em"
+            className="pi pi-times"
+            onClick={() => confirmDeleteDialog.setOpen(true)}
+          />
+        </FlexRow>
+        <Content>
+          <Text size="sm" color="secondary">
+            {node.description}
+          </Text>
+        </Content>
+      </Root>
+
+      <ContextMenu ref={menuRef} model={menuModel} appendTo={appendTo} />
+
+      <confirmDeleteDialog.Component />
+    </>
   );
 };
 
 NodeCard.propTypes = {
-  title: PropTypes.string,
-  onDeleteClick: PropTypes.func,
-  children: PropTypes.element,
+  node: PropTypes.object.isRequired,
+  onDeleteClick: PropTypes.func.isRequired,
 };

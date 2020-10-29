@@ -1,11 +1,10 @@
 import styled from 'styled-components';
 
-import { theme } from './theme';
-
 export const HorizontalSpacer = styled.div`
-  width: ${(props) => theme.spacing[props.size]};
+  display: inline;
+  margin-left: ${(props) => props.size};
 `;
 
 export const VerticalSpacer = styled.div`
-  height: ${(props) => theme.spacing[props.size]};
+  margin-top: ${(props) => props.size};
 `;

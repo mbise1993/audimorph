@@ -2,20 +2,27 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
 
-import { theme } from './theme';
+import { Text } from './Text';
 
 const Container = styled.div`
-  height: 24px;
-  padding: 0px 8px;
+  height: 2.25em;
+  padding: 0.25em 0.75em;
   display: flex;
   align-items: center;
-  background-color: ${theme.palette.neutralLight};
+  justify-content: space-between;
+  background-color: var(--surface-c);
 `;
 
-export const PanelHeader = ({ title }) => {
-  return <Container>{title}</Container>;
+export const PanelHeader = ({ title, actions }) => {
+  return (
+    <Container>
+      <Text>{title}</Text>
+      {actions && <div>{actions}</div>}
+    </Container>
+  );
 };
 
 PanelHeader.propTypes = {
-  title: PropTypes.string,
+  title: PropTypes.string.isRequired,
+  actions: PropTypes.arrayOf(PropTypes.element),
 };

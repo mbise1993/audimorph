@@ -1,30 +1,30 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from 'styled-components';
-import { Text } from '@fluentui/react';
 
-import { theme } from '../../common/ui';
-
-const Container = styled.ul`
-  display: flex;
-  flex-direction: column;
-  padding: 12px;
-  margin: 0px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: ${theme.palette.neutralLighter};
-  }
-`;
+import { EditorState } from '../../editor/state/editorState';
+import { ListItem } from '../../common/ui';
+import { useConfirmation } from '../../common/hooks';
 
 export const TemplateListItem = ({ template }) => {
+  const editorState = EditorState.useContainer();
+  const confirmationDialog = useConfirmation({
+    headerText: `Use Template "${template.name}"?`,
+    bodyText: `Are you sure you want to use this template? All your current changes will be lost.`,
+    onConfirm: () => {
+      editorState.setCurrentTemplate(template);
+    },
+  });
+
   return (
-    <Container>
-      <Text>
-        <strong>{template.name}</strong>
-      </Text>
-      <Text>{template.description}</Text>
-    </Container>
+    <>
+      <ListItem
+        primaryText={template.name}
+        secondaryText={template.description}
+        onClick={() => confirmationDialog.setOpen(true)}
+      />
+
+      <confirmationDialog.Component />
+    </>
   );
 };
 

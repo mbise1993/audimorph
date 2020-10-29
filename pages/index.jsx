@@ -1,47 +1,26 @@
 import React from 'react';
-import styled from 'styled-components';
 
 import { AppHeader } from '../src/root/ui/AppHeader';
 import { Editor } from '../src/editor/ui/Editor';
+import { EditorState } from '../src/editor/state/editorState';
 import { Templates } from '../src/templates/ui/Templates';
-import { theme } from '../src/common/ui';
 
-const Container = styled.main`
-  height: 100vh;
-  display: grid;
-  grid:
-    [row1-start] 'header header' 40px [row1-end]
-    [row2-start] 'templates editor' 1fr [row2-end]
-    / 300px auto;
-`;
-
-const HeaderArea = styled.div`
-  grid-area: header;
-`;
-
-const EditorArea = styled.div`
-  grid-area: editor;
-`;
-
-const TemplatesArea = styled.div`
-  grid-area: templates;
-  border-left: 1px solid ${theme.semanticColors.bodyDivider};
-`;
-
-function App() {
+function Index() {
   return (
-    <Container>
-      <HeaderArea>
-        <AppHeader />
-      </HeaderArea>
-      <TemplatesArea>
-        <Templates />
-      </TemplatesArea>
-      <EditorArea>
-        <Editor />
-      </EditorArea>
-    </Container>
+    <EditorState.Provider>
+      <div className="grid-container">
+        <div className="area-header">
+          <AppHeader />
+        </div>
+        <div className="area-templates">
+          <Templates />
+        </div>
+        <div className="area-editor">
+          <Editor />
+        </div>
+      </div>
+    </EditorState.Provider>
   );
 }
 
-export default App;
+export default Index;
