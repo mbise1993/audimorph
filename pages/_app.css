@@ -21,7 +21,7 @@ body {
   grid:
     [row1-start] 'header header' 40px [row1-end]
     [row2-start] 'templates editor' 1fr [row2-end]
-    / 300px auto;
+    / 340px auto;
 }
 
 .area-header {

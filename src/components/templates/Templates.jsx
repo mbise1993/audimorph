@@ -1,9 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import styled from 'styled-components';
+import { InputSwitch } from 'primereact/inputswitch';
+import { InputText } from 'primereact/inputtext';
 import { v4 as uuid } from 'uuid';
 
+import { FlexRow, HorizontalSpacer, PanelHeader, Text } from '../common';
 import { nodeTypes } from '../../state/nodeTypes';
-import { PanelHeader } from '../common';
 import { TemplateListItem } from './TemplateListItem';
 
 const TEMPLATES = [
@@ -41,10 +44,51 @@ const TEMPLATES = [
   },
 ];
 
+const SearchContainer = styled.span`
+  width: 100%;
+`;
+
+const SearchInput = styled(InputText)`
+  width: 100%;
+`;
+
 export function Templates({ templates }) {
+  const [isOnlyMineChecked, setOnlyMineChecked] = React.useState(false);
+  const [searchText, setSearchText] = React.useState('');
+
+  function handleOnlyMineChange(e) {
+    setOnlyMineChecked(e.value);
+  }
+
+  function handleSearchTextChange(e) {
+    setSearchText(e.target.value);
+  }
+
+  const headerActions = (
+    <FlexRow align="center">
+      <Text size="sm" color="secondary">
+        Only Mine
+      </Text>
+      <HorizontalSpacer size="0.5em" />
+      <InputSwitch
+        checked={isOnlyMineChecked}
+        onChange={handleOnlyMineChange}
+      />
+    </FlexRow>
+  );
+
   return (
     <div>
-      <PanelHeader title="Templates" />
+      <PanelHeader height="2.75em" title="Templates" actions={headerActions} />
+      <SearchContainer className="p-input-icon-left">
+        <i className="pi pi-search" />
+        <SearchInput
+          className="p-inputtext-sm"
+          placeholder="Search"
+          value={searchText}
+          onChange={handleSearchTextChange}
+        />
+      </SearchContainer>
       {templates.map((template) => (
         <TemplateListItem key={template.id} template={template} />
       ))}
