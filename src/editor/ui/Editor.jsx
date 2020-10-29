@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { v4 as uuid } from 'uuid';
 
 import { AddNodeButton } from './AddNodeButton';
+import { AppState, appState } from '../../root/state/appState';
 import { Button, FlexRow, HorizontalSpacer, Text } from '../../common/ui';
 import { calcElementPositions } from './nodes/nodeUtils';
 import { NodeCard } from './nodes/NodeCard';
@@ -57,6 +58,7 @@ const VerticalLine = styled.div`
 `;
 
 export const Editor = () => {
+  const appState = AppState.useContainer();
   const [nodes, setNodes] = React.useState(NODES);
 
   const handleAddClick = (index, type) => {
@@ -175,7 +177,15 @@ export const Editor = () => {
   return (
     <Container>
       <FlexRow justify="space-between">
-        <Text size="lg">Node Editor</Text>
+        <div>
+          <Text size="lg">Node Editor</Text>
+          &nbsp;&nbsp;
+          {appState.currentTemplate && (
+            <Text size="md" color="secondary">
+              Template: {appState.currentTemplate.name}
+            </Text>
+          )}
+        </div>
         <div>
           <Button variant="rounded" outlined>
             Run

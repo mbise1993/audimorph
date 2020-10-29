@@ -13,9 +13,9 @@ const Container = styled(FlexRow)`
   }
 `;
 
-export const ListItem = ({ primaryText, secondaryText }) => {
+export const ListItem = ({ primaryText, secondaryText, onClick }) => {
   return (
-    <Container p="0.75em">
+    <Container p="0.75em" onClick={onClick}>
       <FlexColumn>
         <Text>{primaryText}</Text>
         <VerticalSpacer size="0.3em" />
@@ -30,4 +30,5 @@ export const ListItem = ({ primaryText, secondaryText }) => {
 ListItem.propTypes = {
   primaryText: PropTypes.string.isRequired,
   secondaryText: PropTypes.string,
+  onClick: PropTypes.func,
 };

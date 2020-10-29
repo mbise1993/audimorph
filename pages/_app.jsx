@@ -3,8 +3,14 @@ import React from 'react';
 
 import './_app.css';
 
+import { AppState } from '../src/root/state/appState';
+
 function App({ Component, pageProps }) {
-  return <Component {...pageProps} />;
+  return (
+    <AppState.Provider value={null}>
+      <Component {...pageProps} />
+    </AppState.Provider>
+  );
 }
 
 App.propTypes = {
