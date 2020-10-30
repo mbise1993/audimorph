@@ -1,19 +1,14 @@
 import React from 'react';
-import { withSSRContext } from 'aws-amplify';
 
 import { AppHeader } from '../src/components/root/AppHeader';
 import { Editor } from '../src/components/editor/Editor';
 import { EditorState } from '../src/state/editorState';
-import { listTemplates } from '../src/graphql/queries';
 import { Templates } from '../src/components/templates/Templates';
 
 export async function getServerSideProps({ req }) {
-  const ssr = withSSRContext({ req });
-  const response = await ssr.API.graphql({ query: listTemplates });
-
   return {
     props: {
-      templates: response.data.listTemplates.items,
+      templates: [],
     },
   };
 }
