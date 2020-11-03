@@ -1,14 +1,20 @@
 import { Template } from '../../database/template';
 
-export async function getTemplates(req, res) {
+export async function getTemplates(context) {
+  const { searchTerm, onlyMine } = context.req.query;
+
   const query = Template.find().where('private', false);
 
-  const searchTerm = req.query.searchTerm;
   if (searchTerm && searchTerm.length > 0) {
     const searchRegex = new RegExp(searchTerm, 'i');
     query.or([{ name: searchRegex }, { description: searchRegex }]);
   }
 
+  if (onlyMine && onlyMine === 'true' && context.user) {
+    const { id: userId } = context.user.attributes;
+    query.or([{ ownerId: userId }]);
+  }
+
   const templates = await query.exec();
-  res.status(200).json(templates);
+  context.res.status(200).json(templates);
 }

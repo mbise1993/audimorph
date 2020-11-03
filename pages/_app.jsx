@@ -1,3 +1,4 @@
+import Amplify from 'aws-amplify';
 import Head from 'next/head';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -5,7 +6,13 @@ import { SWRConfig } from 'swr';
 
 import './_app.css';
 
+import awsExports from '../config/aws-exports';
 import { AuthState } from '../client/state/authState';
+
+Amplify.configure({
+  ...awsExports,
+  ssr: true,
+});
 
 const swrConfig = {
   fetcher: (resource, init) => fetch(resource, init).then((res) => res.json()),

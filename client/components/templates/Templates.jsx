@@ -85,7 +85,7 @@ export function Templates() {
       </SearchContainer>
 
       {templateResults.templates.map((template) => (
-        <TemplateListItem key={template.id} template={template} />
+        <TemplateListItem key={template._id} template={template} />
       ))}
     </div>
   );
