@@ -1,4 +1,4 @@
-import { MongoDb, Template } from '../../src/database';
+import { MongoDb, Template } from '../../database';
 
 async function searchTemplates(req, res) {
   const query = Template.find().where('private', false);
