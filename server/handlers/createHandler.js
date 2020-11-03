@@ -1,6 +1,6 @@
 import Amplify, { withSSRContext } from 'aws-amplify';
 
-import awsExports from '../../../config/aws-exports';
+import awsExports from '../../config/aws-exports';
 import { MongoDb } from '../database/mongodb';
 
 Amplify.configure({
@@ -17,7 +17,7 @@ export function createHandler(handlersByMethod) {
       return;
     }
 
-    const { Auth } = withSSRContext({ req: context.req });
+    const { Auth } = withSSRContext({ req });
 
     let user;
     try {
