@@ -8,6 +8,7 @@ import './_app.css';
 
 import awsExports from '../config/aws-exports';
 import { AuthState } from '../client/state/authState';
+import { fetcher } from '../client/utils/fetcher';
 
 Amplify.configure({
   ...awsExports,
@@ -15,7 +16,7 @@ Amplify.configure({
 });
 
 const swrConfig = {
-  fetcher: (resource, init) => fetch(resource, init).then((res) => res.json()),
+  fetcher,
 };
 
 export default function App({ Component, pageProps }) {

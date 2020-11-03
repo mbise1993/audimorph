@@ -24,13 +24,14 @@ const SearchInput = styled(InputText)`
   width: 100%;
 `;
 
-export function Templates() {
+export function Templates({ templates }) {
   const [isOnlyMineChecked, setOnlyMineChecked] = React.useState(false);
   const [searchTerm, setSearchTerm] = React.useState('');
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
   const templateResults = useSearchTemplates(
     debouncedSearchTerm,
     isOnlyMineChecked,
+    templates,
   );
 
   const handleOnlyMineChange = React.useCallback((e) => {
@@ -90,3 +91,7 @@ export function Templates() {
     </div>
   );
 }
+
+Templates.propTypes = {
+  templates: PropTypes.arrayOf(PropTypes.object),
+};
