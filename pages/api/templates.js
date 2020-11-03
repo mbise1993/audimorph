@@ -1,16 +1,15 @@
 import { MongoDb, Template } from '../../src/database';
 
 async function searchTemplates(req, res) {
-  const filter = {
-    private: false,
-  };
+  const query = Template.find().where('private', false);
 
   const searchTerm = req.query.searchTerm;
   if (searchTerm && searchTerm.length > 0) {
-    filter.name = new RegExp(searchTerm, 'i');
+    const searchRegex = new RegExp(searchTerm, 'i');
+    query.or([{ name: searchRegex }, { description: searchRegex }]);
   }
 
-  const templates = await Template.find(filter);
+  const templates = await query.exec();
   res.status(200).json(templates);
 }
 
