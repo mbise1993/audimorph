@@ -7,11 +7,10 @@ async function searchTemplates(req, res) {
 
   const searchTerm = req.query.searchTerm;
   if (searchTerm && searchTerm.length > 0) {
-    filter.name = searchTerm;
+    filter.name = new RegExp(searchTerm, 'i');
   }
 
   const templates = await Template.find(filter);
-  console.log(templates);
   res.status(200).json(templates);
 }
 
