@@ -5,7 +5,7 @@ import { SWRConfig } from 'swr';
 
 import './_app.css';
 
-import { AuthState } from '../state/authState';
+import { AuthState } from '../client/state/authState';
 
 const swrConfig = {
   fetcher: (resource, init) => fetch(resource, init).then((res) => res.json()),
