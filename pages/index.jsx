@@ -5,15 +5,7 @@ import { Editor } from '../src/components/editor/Editor';
 import { EditorState } from '../src/state/editorState';
 import { Templates } from '../src/components/templates/Templates';
 
-export async function getServerSideProps({ req }) {
-  return {
-    props: {
-      templates: [],
-    },
-  };
-}
-
-export default function Index({ templates = [] }) {
+export default function Index() {
   return (
     <EditorState.Provider>
       <div className="grid-container">
@@ -21,7 +13,7 @@ export default function Index({ templates = [] }) {
           <AppHeader />
         </div>
         <div className="area-templates">
-          <Templates templates={templates} />
+          <Templates />
         </div>
         <div className="area-editor">
           <Editor />
