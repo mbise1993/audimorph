@@ -1,7 +1,7 @@
 {
-  "name": "audimorph-web",
+  "name": "audimorph",
   "version": "0.1.0",
-  "description": "The AudiMorph web app",
+  "description": "AudiMorph MIDI transformer",
   "license": "MIT",
   "scripts": {
     "dev": "next dev",
