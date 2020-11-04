@@ -6,9 +6,9 @@ import { SWRConfig } from 'swr';
 
 import './_app.css';
 
-import awsExports from '../config/aws-exports';
-import { AuthState } from '../client/state/authState';
-import { fetcher } from '../client/utils/fetcher';
+import awsExports from '../../config/aws-exports';
+import { AuthState } from '../state/authState';
+import { fetcher } from '../utils/fetcher';
 
 Amplify.configure({
   ...awsExports,
