@@ -3,10 +3,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { InputSwitch } from 'primereact/inputswitch';
 import { InputText } from 'primereact/inputtext';
+import { mutate } from 'swr';
 
 import { FlexRow, HorizontalSpacer, Text } from '../common';
 import { TemplateListItem } from './TemplateListItem';
-import { useDebounce } from '../../hooks/useDebounce';
 import { useSearchTemplates } from '../../hooks/useSearchTemplates';
 
 const Header = styled.div`
@@ -27,12 +27,11 @@ const SearchInput = styled(InputText)`
 export function Templates({ templates }) {
   const [isOnlyMineChecked, setOnlyMineChecked] = React.useState(false);
   const [searchTerm, setSearchTerm] = React.useState('');
-  const debouncedSearchTerm = useDebounce(searchTerm, 500);
-  const templateResults = useSearchTemplates(
-    debouncedSearchTerm,
-    isOnlyMineChecked,
-    templates,
-  );
+  const searchResults = useSearchTemplates(searchTerm, isOnlyMineChecked);
+
+  React.useEffect(() => {
+    mutate('/api/templates?searchTerm=&onlyMine=false', templates);
+  }, [templates]);
 
   const handleOnlyMineChange = React.useCallback((e) => {
     setOnlyMineChecked(e.value);
@@ -61,7 +60,7 @@ export function Templates({ templates }) {
         <div>
           <Text>Templates</Text>
           <HorizontalSpacer size="0.5em" />
-          {templateResults.isLoading && <i className="pi pi-spin pi-spinner" />}
+          {searchResults.isLoading && <i className="pi pi-spin pi-spinner" />}
         </div>
         <FlexRow align="center">
           <Text size="sm" color="secondary">
@@ -85,7 +84,7 @@ export function Templates({ templates }) {
         />
       </SearchContainer>
 
-      {templateResults.templates.map((template) => (
+      {searchResults.templates.map((template) => (
         <TemplateListItem key={template._id} template={template} />
       ))}
     </div>

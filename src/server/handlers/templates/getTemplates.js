@@ -12,7 +12,7 @@ export async function getTemplates(context) {
 
   if (onlyMine && onlyMine === 'true' && context.user) {
     const { id: userId } = context.user.attributes;
-    query.or([{ ownerId: userId }]);
+    query.and([{ ownerId: userId }]);
   }
 
   const templates = await query.exec();

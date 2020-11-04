@@ -1,11 +1,8 @@
 import useSWR from 'swr';
 
-export function useSearchTemplates(searchTerm, onlyMine, initialTemplates) {
+export function useSearchTemplates(searchTerm, onlyMine) {
   const results = useSWR(
     `/api/templates?searchTerm=${searchTerm}&onlyMine=${onlyMine}`,
-    {
-      initialData: initialTemplates,
-    },
   );
 
   return {

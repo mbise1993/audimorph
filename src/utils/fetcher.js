@@ -1,5 +1,9 @@
 export const fetcher = async (resource, init) => {
-  return fetch(`${process.env.API_URL}${resource}`, init).then((res) =>
-    res.json(),
-  );
+  const apiUrl = process.env.API_URL;
+  if (!apiUrl) {
+    throw new Error('API_URL not provided');
+  }
+
+  const res = await fetch(`${apiUrl}${resource}`, init);
+  return res.json();
 };
