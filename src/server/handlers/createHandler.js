@@ -1,6 +1,6 @@
 import Amplify, { withSSRContext } from 'aws-amplify';
 
-import awsExports from '../../config/aws-exports';
+import awsExports from '../../aws-exports';
 import { MongoDb } from '../database/mongodb';
 
 Amplify.configure({

@@ -6,7 +6,7 @@ import { SWRConfig } from 'swr';
 
 import './_app.css';
 
-import awsExports from '../../config/aws-exports';
+import awsExports from '../aws-exports';
 import { AuthState } from '../state/authState';
 import { fetcher } from '../utils/fetcher';
 
